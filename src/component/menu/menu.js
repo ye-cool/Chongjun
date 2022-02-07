@@ -1,58 +1,109 @@
 import React from "react";
 import { Menu } from "antd";
-import {Link} from 'react-router-dom';
-
+import { Link } from "react-router-dom";
+// 引入侧边栏配置
+import BackstageMenuList from "../../config/BackstageMenuConfig";
+import EnterpriseMenuList from "../../config/EnterpriseMenuConfig";
 const { SubMenu } = Menu;
 
 class MyMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { openKeys: [], selectedKeys: [] };
   }
 
   handleClick = (e) => {
-    console.log("click ", e);
+    // console.log("click ", e);
+    // menu的初始化
+    // 获取当前路径
+    const pathname = window.location.pathname;
+    //获取当前所在的目录层级
+    const rank = pathname.split("/");
+    //rank = ["","policy-engine","nas-client"]
+    if (rank.length == 3) {
+      this.setState({
+        selectedKeys: [pathname],
+      });
+    } else if (rank.length == 4) {
+      this.setState({
+        selectedKeys: [pathname],
+        openKeys: [rank.slice(2, 3).join("/")],
+      });
+    } else {
+      this.setState({
+        selectedKeys: [rank.slice(1, 4).join("/")],
+        openKeys: [rank.slice(2, 3).join("/")],
+      });
+    }
+  };
+  openMenu = (e) => {
+    this.setState({
+      openKeys: [e[1]],
+    });
+  };
+
+  componentDidMount() {
+    // 刷新挂载组件
+    const menuTreeNode = this.renderMenu(BackstageMenuList);
+    this.setState({
+      menuTreeNode,
+    });
+
+    // 刷新后menu的初始化
+    // 获取当前路径
+    const pathname = window.location.pathname;
+    //获取当前所在的目录层级
+    const rank = pathname.split("/");
+    //rank = ["","policy-engine","nas-client"]
+    if (rank.length == 3) {
+      this.setState({
+        selectedKeys: [pathname],
+      });
+    } else if (rank.length == 4) {
+      this.setState({
+        selectedKeys: [pathname],
+        openKeys: [rank.slice(2, 3).join("/")],
+      });
+    } else {
+      this.setState({
+        selectedKeys: [rank.slice(0, 4).join("/")],
+        openKeys: [rank.slice(2, 3).join("/")],
+      });
+    }
+  }
+
+  // 菜单渲染
+  renderMenu = (data) => {
+    return data.map((item) => {
+      if (item.children) {
+        return (
+          <SubMenu title={item.title} key={item.key}>
+            {this.renderMenu(item.children)}
+          </SubMenu>
+        );
+      }
+      return (
+        <Menu.Item title={item.title} key={item.key}>
+          {item.title}
+          <Link to={item.key}></Link>
+        </Menu.Item>
+      );
+    });
   };
 
   render() {
     return (
       // 菜单栏信息
       <Menu
-      className="myMenu"
+        className="myMenu"
         onClick={this.handleClick}
+        onOpenChange={this.openMenu}
         theme="dark"
-        defaultSelectedKeys={["ResumeDatabase"]}
-        defaultOpenKeys={["ChongjunEmployment"]}
+        openKeys={this.state.openKeys}
+        selectedKeys={this.state.selectedKeys}
         mode="inline"
       >
-        {/* 实现路由跳转 */}
-        <SubMenu key="ChongjunEmployment" title="崇军就业">
-          <Menu.Item key="ResumeDatabase">简历数据库<Link to="/admin/ChongjunEmployment/ResumeDatabase" /></Menu.Item> 
-          <Menu.Item key="JobDatabase">职位数据库<Link to="/admin/ChongjunEmployment/JobDatabase" /></Menu.Item>
-          <Menu.Item key="SpecialRecruitment">专场招聘<Link to="/admin/ChongjunEmployment/SpecialRecruitment" /></Menu.Item>
-        </SubMenu>
-        <SubMenu key="BusinessManagement" title="企业管理">
-          <Menu.Item key="EnterpriseDetails">企业详情<Link to="/admin/BusinessManagement/EnterpriseDetails" /></Menu.Item>
-          <Menu.Item key="EnterpriseAudit">企业审核<Link to="/admin/BusinessManagement/EnterpriseAudit" /></Menu.Item>
-          <Menu.Item key="EnterpriseAccountManagement">企业账号管理<Link to="/admin/BusinessManagement/EnterpriseAccountManagement" /></Menu.Item>
-        </SubMenu>
-        <SubMenu key="DisplayManagement" title="展示管理">
-          <Menu.Item key="CarouselSettings">轮播图设置<Link to="/admin/DisplayManagement/CarouselSettings" /></Menu.Item>
-          <Menu.Item key="AboutUs">关于我们<Link to="/admin/DisplayManagement/AboutUs" /></Menu.Item>
-          <Menu.Item key="PrivacyAgreement">隐私协议<Link to="/admin/DisplayManagement/PrivacyAgreement" /></Menu.Item>
-        </SubMenu>
-        <SubMenu key="BillingManagement" title="开票管理">
-          <Menu.Item key="BillingInformationCheck">开票信息核对<Link to="/admin/BillingManagement/BillingInformationCheck" /></Menu.Item>
-          <Menu.Item key="BillingInformationProcessing">开票信息处理<Link to="/admin/BillingManagement/BillingInformationProcessing" /></Menu.Item>
-        </SubMenu>
-        <SubMenu key="CourseManagement" title="课程管理">
-          <Menu.Item key="AllOrders">全部订单<Link to="/admin/CourseManagement/AllOrders" /></Menu.Item>
-          <Menu.Item key="RefundProcessing">退款处理<Link to="/admin/CourseManagement/RefundProcessing" /></Menu.Item>
-        </SubMenu>
-        <SubMenu key="AuthorityManagement" title="权限管理">
-          <Menu.Item key="AccountManagement">账号管理<Link to="/admin/AuthorityManagement/AccountManagement" /></Menu.Item>
-          <Menu.Item key="AdminReview">管理员审核<Link to="/admin/AuthorityManagement/AdminReview" /></Menu.Item>
-        </SubMenu>
+        {this.state.menuTreeNode}
       </Menu>
     );
   }

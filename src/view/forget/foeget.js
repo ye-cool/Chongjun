@@ -1,5 +1,5 @@
 import React from "react";
-import "./signup.css";
+import "./forget.css";
 import {
   Layout,
   Input,
@@ -42,7 +42,7 @@ const onFinish = (values) => {
   console.log("Received values of form: ", values);
 };
 // 注册
-class Signup extends React.Component {
+class Forget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -50,14 +50,14 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Layout className="signup-layout">
+      <Layout className="forget-layout">
         <Header style={{ padding: 0 }}>
-          <div className="signup-header-background"></div>
+          <div className="forget-header-background"></div>
         </Header>
         <Content>
-          <Space className="signup-space" direction="vertical" size={30}>
+          <Space className="forget-space" direction="vertical" size={30}>
             <CenterRow>
-              <div className="signup-title">崇军行</div>
+              <div className="forget-title">崇军行</div>
             </CenterRow>
             <CenterRow>
                 <Form
@@ -76,7 +76,7 @@ class Signup extends React.Component {
                       },
                     ]}
                   >
-                    <Input className="signup-input" placeholder="手机号码" />
+                    <Input className="forget-input" placeholder="手机号码" />
                   </Form.Item>
                   <Form.Item
                     {...tailFormItemLayout}
@@ -91,7 +91,7 @@ class Signup extends React.Component {
                     <Row>
                       <Col>
                         <Input
-                          className="signup-input-small"
+                          className="forget-input-small"
                           placeholder="验证码"
                         />
                       </Col>
@@ -101,36 +101,8 @@ class Signup extends React.Component {
                     </Row>
                   </Form.Item>
                   <Form.Item
-                    name="username"
-                    label="账号"
-                    rules={[
-                      {
-                        required: true,
-                        message: "请输入账号！",
-                      },
-                    ]}
-                  >
-                    <Input className="signup-input" placeholder="请输入账号" />
-                  </Form.Item>
-                  <Form.Item
-                    name="role"
-                    label="身份"
-                    rules={[
-                      {
-                        required: true,
-                        message: "请选择身份！",
-                      },
-                    ]}
-                  >
-                    <Radio.Group className="signup-radio">
-                      <Radio value={1}>企业用户</Radio>
-                      <Radio value={2}>普通管理员</Radio>
-                      <Radio value={3}>超级管理员</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                  <Form.Item
                     name="password"
-                    label="密码"
+                    label="新密码"
                     rules={[
                       {
                         required: true,
@@ -139,7 +111,7 @@ class Signup extends React.Component {
                     ]}
                   >
                     <Input.Password
-                      className="signup-input"
+                      className="forget-input"
                       placeholder="请输入密码"
                     />
                   </Form.Item>
@@ -166,18 +138,18 @@ class Signup extends React.Component {
                     ]}
                   >
                     <Input.Password
-                      className="signup-input"
+                      className="forget-input"
                       placeholder="请输入密码"
                     />
                   </Form.Item>
                   <Form.Item {...tailFormItemLayout}>
                       <Button
-                        className="signup-button"
+                        className="forget-button"
                         type="primary"
                         htmlType="submit"
                         size={"large"}
                       >
-                        注册
+                        确定
                       </Button>
                   </Form.Item>
                 </Form>
@@ -185,11 +157,11 @@ class Signup extends React.Component {
           </Space>
         </Content>
         <Footer>
-          <div className="signup-footer-background"></div>
+          <div className="forget-footer-background"></div>
         </Footer>
       </Layout>
     );
   }
 }
 
-export default Signup;
+export default Forget;

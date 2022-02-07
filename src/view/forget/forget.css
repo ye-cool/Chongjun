@@ -1,0 +1,35 @@
+.forget-layout {
+    height: 100%;
+  }
+  .forget-logo {
+    height: 200px;
+  }
+  .forget-header-background {
+    background: #f0f2f5;
+    height: 100%;
+  }
+  .forget-footer-background {
+    background: #f0f2f5;
+    height: 100%;
+  }
+  .forget-title {
+    font-family: cursive;
+    font-size: 60px;
+  }
+  .forget-space {
+    width: 100%;
+  }
+  .forget-input {
+    width: 220px;
+  }
+  .forget-input-small {
+    width: 100px;
+    margin-right: 10px;
+  }
+  .forget-button {
+    width: 200px;
+  }
+  .forget-radio{
+    width: 400px;
+  }
+  

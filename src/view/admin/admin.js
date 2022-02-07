@@ -1,9 +1,7 @@
 import React from "react";
-import { Layout } from "antd";
+import { Layout, Row, Col, Button } from "antd";
 import MyMenu from "../../component/menu/menu";
-import { Routes } from "react-router-dom";
 import "./admin.css";
-
 const { Header, Content, Footer, Sider } = Layout;
 // 主页面布局
 class AdminLayout extends React.Component {
@@ -13,7 +11,7 @@ class AdminLayout extends React.Component {
   }
   render() {
     return (
-      <Layout className="UIlayout">
+      <Layout className="ui-layout">
         {/* 侧边栏 */}
         <Sider
           breakpoint="lg"
@@ -35,19 +33,26 @@ class AdminLayout extends React.Component {
             <div
               className="site-layout-sub-header-background"
               style={{ height: "100%" }}
-            ></div>
+            >
+              <Row justify="end">
+                <Col span={1}>
+                  <span>管理员A</span>
+                </Col>
+                <Col span={1}>
+                  <Button type="primary">退出</Button>
+                </Col>
+                <Col span={1}></Col>
+              </Row>
+            </div>
           </Header>
           <Content style={{ margin: "24px 16px 0" }}>
             <div
               className="site-layout-background"
-              style={{ padding: 24, minHeight: 690 }}
+              style={{ padding: 24, minHeight: 690,maxHeight:710, overflow: "auto" }}
             >
               {this.props.children}
             </div>
           </Content>
-          <Footer style={{ textAlign: "center" }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
         </Layout>
       </Layout>
     );
