@@ -1,26 +1,238 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
-import { Layout, Input, Space, Button, Tabs, Row, Col, Form } from "antd";
+import {
+  message,
+  Layout,
+  Input,
+  Space,
+  Button,
+  Tabs,
+  Row,
+  Col,
+  Form,
+  Radio,
+} from "antd";
 import { UserOutlined, LockOutlined, PhoneOutlined } from "@ant-design/icons";
 import CenterRow from "../../component/centerRow/centerRow";
 import { useNavigate } from "react-router-dom";
+import { adminLogin, adminLoginByPhone, getAdminInfo } from "../../apis/admin";
+import { companyLogin, companyLoginByPhone, getCompanyInfo } from "../../apis/company";
+import { getLoginVerification } from "../../apis/verification";
+import logo from "../../assets/logo.png"
 
 const { Header, Footer, Content } = Layout;
 const { TabPane } = Tabs;
 
 // 登录
-function Login() {
-  const navigate = useNavigate()
-  
-  const onSubmit = (values) => {
+function Login(props) {
+  const [time, setTime] = useState(60);
+  const [over, setOver] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("");
+  const navigate = useNavigate();
+
+  // 通过账号密码登录
+  const accLogin = (values) => {
     console.log("Received values of form: ", values);
-    if(values.username=='admin'&&values.password=='admin'){
-    navigate("/admin/ChongjunEmployment/ResumeDatabase");
-    }
-    else{
-      console.log('用户名或密码错误');
+    let localStorage = window.localStorage;
+    localStorage.setItem("role", values.role);
+    if (values.role == "admin") {
+      adminLogin({
+        adminAccount: values.username,
+        password: values.password,
+      }).then(
+        (res) => {
+          console.log("get article response:", res);
+          if (res.code == 600) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("aid", res.data.aid);
+            getAdminInfo(res.data.aid).then(
+              (res) => {
+                console.log("get article response:", res);
+                if (res.code == 600) {
+                  props.setName(res.data.name)
+                } else {
+                  message.error(res.message);
+                }
+              },
+              (error) => {
+                console.log("get response failed!");
+              }
+            );
+            navigate("/admin/ChongjunEmployment/ResumeDatabase");
+          } else {
+            message.error(res.message);
+          }
+        },
+        (error) => {
+          console.log("get response failed!");
+        }
+      );
+    } else if (values.role == "company") {
+      companyLogin({
+        companyAccountNum: values.username,
+        password: values.password,
+      }).then(
+        (res) => {
+          console.log("get article response:", res);
+          if (res.code == 600) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("cid", res.data.cid);
+            localStorage.setItem("id", res.data.companyId);
+            getCompanyInfo(res.data.cid).then(
+              (res) => {
+                console.log("get article response:", res);
+                if (res.code == 600) {
+                  props.setName(res.data.name)
+                } else {
+                  message.error(res.message);
+                }
+              },
+              (error) => {
+                console.log("get response failed!");
+              }
+            );
+            navigate("/admin/CorporateInformation");
+          } else {
+            message.error(res.message);
+          }
+        },
+        (error) => {
+          console.log("get response failed!");
+        }
+      );
     }
   };
+  // 获取验证码60s倒计时
+  useEffect(() => {
+    if (time < 60 && time > 0) {
+      let timerID = setInterval(() => tick(), 1000);
+      return () => clearInterval(timerID);
+    } else {
+      setTime(60);
+    }
+  });
+
+  const tick = () => {
+    // 暂停，或已结束
+    if (over) return;
+    if (time === 0) setOver(true);
+    else {
+      let Time = time;
+      setTime(Time - 1);
+    }
+  };
+
+  // 以下为获取手机验证码的函数
+  const getPhone = (e) => {
+    setPhone(e.target.value);
+  };
+  const isEnterpriseUser = (e) => {
+    console.log(e.target.value);
+
+    if (e.target.value == "company") {
+      setRole("company");
+    } else if (e.target.value == "admin") {
+      setRole("admin");
+    }
+  };
+  const getVerification = () => {
+    if (phone == "" || role == "") {
+      message.warning("请输入手机号码并选择身份！");
+      return;
+    }
+    tick();
+    const param = {
+      loginType: role,
+      phone: phone,
+    };
+    getLoginVerification(param).then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          message.success("已发送验证码，请注意接收");
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
+  };
+  // 通过手机验证码登录
+  const phoneLogin = (values) => {
+    console.log("Received values of form: ", values);
+    let localStorage = window.localStorage;
+    localStorage.setItem("role", values.role);
+    if (values.role == "admin") {
+      adminLoginByPhone({
+        phone: values.phone,
+        verificationCode: values.verification_code,
+      }).then(
+        (res) => {
+          console.log("get article response:", res);
+          if (res.code == 600) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("aid", res.data.aid);
+            getAdminInfo(res.data.aid).then(
+              (res) => {
+                console.log("get article response:", res);
+                if (res.code == 600) {
+                  props.setName(res.data.name)
+                } else {
+                  message.error(res.message);
+                }
+              },
+              (error) => {
+                console.log("get response failed!");
+              }
+            );
+            navigate("/admin/ChongjunEmployment/ResumeDatabase");
+          } else {
+            message.error(res.message);
+          }
+        },
+        (error) => {
+          console.log("get response failed!");
+        }
+      );
+    } else if (values.role == "company") {
+      companyLoginByPhone({
+        phone: values.phone,
+        verificationCode: values.verification_code,
+      }).then(
+        (res) => {
+          console.log("get article response:", res);
+          if (res.code == 600) {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("cid", res.data.cid);
+            localStorage.setItem("id", res.data.companyId);
+             getCompanyInfo(res.data.cid).then(
+              (res) => {
+                console.log("get article response:", res);
+                if (res.code == 600) {
+                  props.setName(res.data.name)
+                } else {
+                  message.error(res.message);
+                }
+              },
+              (error) => {
+                console.log("get response failed!");
+              }
+            );
+            navigate("/admin/CorporateInformation");
+          } else {
+            message.error(res.message);
+          }
+        },
+        (error) => {
+          console.log("get response failed!");
+        }
+      );
+    }
+  };
+
   return (
     <Layout className="login-layout">
       <Header style={{ padding: 0 }}>
@@ -34,7 +246,7 @@ function Login() {
           <CenterRow>
             <img
               className="login-logo"
-              src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
+              src={logo}
             ></img>
           </CenterRow>
           <CenterRow>
@@ -43,14 +255,19 @@ function Login() {
                 <Form
                   name="password_login"
                   className="login-form"
-                  onFinish={onSubmit}
+                  onFinish={accLogin}
                 >
                   <Form.Item
                     name="username"
+                    normalize={(value) => {
+                      value = value && value.replace(/[^\d]+/g, "");
+                      return value;
+                    }}
                     rules={[
                       {
                         required: true,
-                        message: "请输入账号！",
+                        message: "请输入账号！(不能以0开头)",
+                        pattern: new RegExp(/^[1-9]\d*$/, "g"),
                       },
                     ]}
                   >
@@ -70,6 +287,20 @@ function Login() {
                       prefix={<LockOutlined />}
                     />
                   </Form.Item>
+                  <Form.Item
+                    name="role"
+                    rules={[
+                      {
+                        required: true,
+                        message: "请选择身份！",
+                      },
+                    ]}
+                  >
+                    <Radio.Group className="login-radio">
+                      <Radio value={"company"}>企业用户</Radio>
+                      <Radio value={"admin"}>管理端用户</Radio>
+                    </Radio.Group>
+                  </Form.Item>
                   <Form.Item>
                     <CenterRow>
                       <Button
@@ -84,11 +315,11 @@ function Login() {
                   </Form.Item>
                   <CenterRow>
                     <Col>
-                      <a href="/signup">注册新用户</a>
+                      <a href="/#/signup">注册新用户</a>
                     </Col>
                     <Col span={6}></Col>
                     <Col>
-                      <a href="/forget">忘记密码</a>
+                      <a href="/#/forget">忘记密码</a>
                     </Col>
                   </CenterRow>{" "}
                 </Form>
@@ -97,20 +328,22 @@ function Login() {
                 <Form
                   name="phone_login"
                   className="login-form"
-                  onFinish={onSubmit}
+                  onFinish={phoneLogin}
                 >
                   <Form.Item
                     name="phone"
                     rules={[
                       {
                         required: true,
-                        message: "请输入手机号码！",
+                        pattern: /^1[3|4|5|7|8][0-9]\d{8}$/,
+                        message: "请输入正确的手机号码！",
                       },
                     ]}
                   >
                     <Input
                       className="login-input"
                       placeholder="手机号码"
+                      onChange={getPhone}
                       prefix={<PhoneOutlined />}
                     />
                   </Form.Item>
@@ -131,9 +364,32 @@ function Login() {
                         />
                       </Col>
                       <Col>
-                        <Button>获取验证码</Button>
+                        {time == 60 || time == 0 ? (
+                          <Button ghost onClick={getVerification}>
+                            获取验证码
+                          </Button>
+                        ) : (
+                          <div>{time + " s"}</div>
+                        )}
                       </Col>
                     </Row>
+                  </Form.Item>
+                  <Form.Item
+                    name="role"
+                    rules={[
+                      {
+                        required: true,
+                        message: "请选择身份！",
+                      },
+                    ]}
+                  >
+                    <Radio.Group
+                      className="login-radio"
+                      onChange={isEnterpriseUser}
+                    >
+                      <Radio value={"company"}>企业端用户</Radio>
+                      <Radio value={"admin"}>管理端用员</Radio>
+                    </Radio.Group>
                   </Form.Item>
                   <Form.Item>
                     <CenterRow>
@@ -149,7 +405,7 @@ function Login() {
                   </Form.Item>
                   <CenterRow>
                     <Col>
-                      <a href="/signup">注册新用户</a>
+                      <a href="/#/signup">注册新用户</a>
                     </Col>
                     <Col span={12}></Col>
                   </CenterRow>

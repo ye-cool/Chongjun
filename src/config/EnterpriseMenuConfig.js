@@ -10,7 +10,7 @@ const EnterpriseMenuList = [
   },
   {
     title: "专场招聘",
-    key: "SpecialRecruitment",
+    key: "ESpecialRecruitment",
   },
   {
     title: "个人信息",
@@ -18,7 +18,11 @@ const EnterpriseMenuList = [
   },
   {
     title: "账号管理",
-    key: "AccountManagement",
+    key: "EAccountManagement",
+  },
+  {
+    title: "管理员审核",
+    key: "EadminReview",
   },
 ];
 

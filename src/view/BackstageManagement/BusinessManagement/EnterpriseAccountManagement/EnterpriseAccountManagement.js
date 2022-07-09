@@ -1,117 +1,116 @@
-import { Col, Row, Button, Space, Select, Input, Table } from "antd";
+import { Col, Row, Button, Space, Input, message, Form, Pagination } from "antd";
 import React from "react";
 import "./EnterpriseAccountManagement.css";
 import { SwapOutlined } from "@ant-design/icons";
+import EnterpriseAccountTable from "../../../../component/table/EnterpriseAccountTable/EnterpriseAccountTable";
+import { getSuperAccount } from "../../../../apis/admin";
 
-const { Option } = Select;
+class EnterpriseAccountManagement extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { dataSource: [] };
+  }
+  componentDidMount() {
+    this.getList();
+  }
+  getList = (param) => {
+    getSuperAccount(param).then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          this.setState({
+            dataSource: res.data,
+          });
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
+  };
+  sortByName = () => {
+    this.getList({
+      sortByName: true,
+      upOrDown: false,
+    });
+  };
+  sortByTime = () => {
+    this.getList({
+      sortByTime: true,
+      upOrDown: false,
+    });
+  };
+  onFinish = (values) => {
+    console.log("Success:", values);
+    this.getList({
+      name: values.name,
+    });
+  };
+  onChange = (pageNumber, pageSize) => {
+    console.log("Page: ", pageNumber);
+    console.log("Pagesize: ", pageSize);
+    this.getList({
+      page: pageNumber,
+      size: pageSize,
+    });
+  };
+  render() {
+    return (
+      <div>
+        <Row justify="start">
+          <Col span={1}></Col>
+          <Col span={6}>
+            <Space size={15}>
+              <span>
+                排序
+                <SwapOutlined />:
+              </span>
+              <Button onClick={this.sortByTime}>账号注册时间</Button>
+              <Button onClick={this.sortByName}>企业名称</Button>
+            </Space>
+          </Col>
+          <Col span={14}>
+            <Form name="basic" onFinish={this.onFinish} autoComplete="off">
+              <Space size={15}>
+                <Form.Item>
+                  <span>搜索条件:</span>
+                </Form.Item>
 
-function EnterpriseAccountManagement() {
-  const dataSource = [
-    {
-      key: "1",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "135787878",
-      AccountType: "高级账号",
-      AccountAndPassword: "dsfhvgafuiogf",
-      AccountRegistrationTime: "2021.12.20",
-    },
-    {
-      key: "2",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "135787878",
-      AccountType: "高级账号",
-      AccountAndPassword: "dsfhvgafuiogf",
-      AccountRegistrationTime: "2021.12.20",
-    },
-    {
-      key: "3",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "135787878",
-      AccountType: "高级账号",
-      AccountAndPassword: "dsfhvgafuiogf",
-      AccountRegistrationTime: "2021.12.20",
-    },
-    {
-      key: "4",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "135787878",
-      AccountType: "高级账号",
-      AccountAndPassword: "dsfhvgafuiogf",
-      AccountRegistrationTime: "2021.12.20",
-    },
-  ];
-
-  const columns = [
-    {
-      title: "企业名称",
-      dataIndex: "CompanyName",
-      key: "CompanyName",
-      width: 20,
-    },
-    {
-      title: "账号",
-      dataIndex: "account",
-      key: "account",
-      width: 70,
-    },
-    {
-      title: "账号类型",
-      dataIndex: "AccountType",
-      key: "AccountType",
-      width: 70,
-    },
-    {
-      title: "账号密码",
-      dataIndex: "AccountAndPassword",
-      key: "AccountAndPassword",
-      width: 70,
-    },
-    {
-      title: "账号注册时间",
-      dataIndex: "AccountRegistrationTime",
-      key: "AccountRegistrationTime",
-      width: 70,
-    },
-    {
-      title: "操作",
-      key: "operate",
-      width: 70,
-      render: (text, record) => <a>密码重置</a>,
-    },
-  ];
-  return (
-    <div>
-      <Row justify="start">
-        <Col span={1}></Col>
-        <Col span={6}>
-          <Space size={15}>
-            <span>
-              排序
-              <SwapOutlined />:
-            </span>
-            <Button>账号注册时间</Button>
-            <Button>企业名称</Button>
-          </Space>
-        </Col>
-        <Col span={14}>
-          <Space size={15}>
-            <span>搜索条件:</span>
-            <Input placeholder="企业名称" />
-            <Button>搜索</Button>
-          </Space>
-        </Col>
-      </Row>
-      {/* topbar与table之间的间隔 */}
-      <Row>
-        <div style={{ marginBottom: 20 }}></div>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Table columns={columns} dataSource={dataSource} />
-        </Col>
-      </Row>
-    </div>
-  );
+                <Form.Item name="name">
+                  <Input placeholder="企业名称" />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    搜索
+                  </Button>
+                </Form.Item>
+              </Space>
+            </Form>
+          </Col>
+        </Row>
+        {/* topbar与table之间的间隔 */}
+        <Row>
+          <div style={{ marginBottom: 20 }}></div>
+        </Row>
+        <EnterpriseAccountTable
+          data={this.state.dataSource.records}
+          getList={this.getList}
+        />
+        <Pagination
+          style={{ position: "absolute", right: "40px" }}
+          showQuickJumper
+          showSizeChanger={true}
+          defaultPageSize={5}
+          pageSizeOptions={[5, 10, 20, 50, 100]}
+          current={this.state.dataSource.current}
+          total={this.state.dataSource.total}
+          onChange={this.onChange}
+        />
+      </div>
+    );
+  }
 }
 
 export default EnterpriseAccountManagement;

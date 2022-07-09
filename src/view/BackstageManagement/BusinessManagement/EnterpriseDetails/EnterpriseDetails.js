@@ -1,127 +1,183 @@
-import { Col, Row, Button, Space, Select, Input, Table } from "antd";
+import {
+  Col,
+  Row,
+  Button,
+  Space,
+  Select,
+  Input,
+  message,
+  Form,
+  Cascader,
+  Pagination,
+} from "antd";
 import React from "react";
 import "./EnterpriseDetails.css";
 import { SwapOutlined } from "@ant-design/icons";
-
+import EnterpriseTable from "../../../../component/table/EnterpriseTable/EnterpriseTable";
+import { getCompanyList, getSecondAreaList } from "../../../../apis/admin";
 const { Option } = Select;
 
-function EnterpriseDetails() {
-  const dataSource = [
-    {
-      key: "1",
-      CompanyName: "国贸供应链服务有限公司",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      NumberOfJobPostings: "5",
-      InterviewInvites: "0",
-    },
-    {
-      key: "2",
-      CompanyName: "国贸供应链服务有限公司",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      NumberOfJobPostings: "5",
-      InterviewInvites: "0",
-    },
-    {
-      key: "3",
-      CompanyName: "国贸供应链服务有限公司",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      NumberOfJobPostings: "5",
-      InterviewInvites: "0",
-    },
-    {
-      key: "4",
-      CompanyName: "国贸供应链服务有限公司",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      NumberOfJobPostings: "5",
-      InterviewInvites: "0",
-    },
-  ];
+class EnterpriseDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { dataSource: [], areaList: {}, area: "" };
+  }
+  componentDidMount() {
+    getSecondAreaList().then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          this.setState({
+            areaList: res.data,
+          });
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
+    this.getList();
+  }
+  getList = (param) => {
+    console.log(this.state.areaList);
+    getCompanyList(param).then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          this.setState({
+            dataSource: res.data,
+          });
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
+  };
+  sortByPositionCount = () => {
+    this.getList({
+      sortByPositionCount: true,
+      upOrDown: false,
+    });
+  };
+  sortByInterviewCount = () => {
+    this.getList({
+      sortByInterviewCount: true,
+      upOrDown: false,
+    });
+  };
+  onFinish = (values) => {
+    console.log("Success:", values);
+    this.getList({
+      name: values.name,
+      area: values.area?.join("-"),
+      type: values.type,
+    });
+  };
+  onChange = (pageNumber, pageSize) => {
+    console.log("Page: ", pageNumber);
+    console.log("Pagesize: ", pageSize);
+    this.getList({
+      page: pageNumber,
+      size: pageSize,
+    });
+  };
+  // 只展示最后一个.
+  displayRender(label) {
+    return label[label.length - 1];
+  }
+  render() {
+    const options = Object.keys(this.state.areaList).map((key) => {
+      console.log(key, this.state.areaList[key]);
+      return {
+        value: key,
+        label: key,
+        children: this.state.areaList[key].map((item) => {
+          return {
+            value: item,
+            label: item,
+          };
+        }),
+      };
+    });
 
-  const columns = [
-    {
-      title: "企业名称",
-      dataIndex: "CompanyName",
-      key: "CompanyName",
-      width: 20,
-    },
-    {
-      title: "企业类别",
-      dataIndex: "BusinessCategory",
-      key: "BusinessCategory",
-      width: 70,
-    },
-    {
-      title: "所在地区",
-      dataIndex: "area",
-      key: "area",
-      width: 70,
-    },
-    {
-      title: "岗位发布数量",
-      dataIndex: "NumberOfJobPostings",
-      key: "NumberOfJobPostings",
-      width: 70,
-    },
-    {
-      title: "面试邀约人数",
-      dataIndex: "InterviewInvites",
-      key: "InterviewInvites",
-      width: 70,
-    },
-    {
-      title: "操作",
-      key: "operate",
-      width: 70,
-      render: (text, record) => <a>查看详情</a>,
-    },
-  ];
-  return (
-    <div>
-      <Row justify="start">
-        <Col span={1}></Col>
-        <Col span={6}>
-          <Space size={15}>
-            <span>
-              排序
-              <SwapOutlined />:
-            </span>
-            <Button>岗位数量</Button>
-            <Button>面试邀约人数</Button>
-          </Space>
-        </Col>
-        <Col span={14}>
-          <Space size={15}>
-            <span>搜索条件:</span>
-            <Select placeholder="企业类别" style={{ width: 110 }} allowClear>
-              <Option value="国企">国企</Option>
-              <Option value="央企">央企</Option>
-              <Option value="事业单位">事业单位</Option>
-              <Option value="政府机关">政府机关</Option>
-              <Option value="民营企业">民营企业</Option>
-            </Select>
-            <Select placeholder="地区" style={{ width: 110 }} allowClear>
-              <Option value="北京市">北京市</Option>
-            </Select>
-            <Input placeholder="企业名称" />
-            <Button>搜索</Button>
-          </Space>
-        </Col>
-      </Row>
-      {/* topbar与table之间的间隔 */}
-      <Row>
-        <div style={{ marginBottom: 20 }}></div>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Table columns={columns} dataSource={dataSource} />
-        </Col>
-      </Row>
-    </div>
-  );
+    return (
+      <div>
+        <Row justify="start">
+          <Col span={1}></Col>
+          <Col>
+            <Space size={15}>
+              <span>
+                排序
+                <SwapOutlined />:
+              </span>
+              <Button onClick={this.sortByPositionCount}>岗位数量</Button>
+              <Button onClick={this.sortByInterviewCount}>面试邀约人数</Button>
+            </Space>
+          </Col>
+          <Col span={1}></Col>
+          <Col span={14}>
+            <Form name="basic" onFinish={this.onFinish} autoComplete="off">
+              <Space size={15}>
+                                <Form.Item>
+                  <span>搜索条件:</span>
+                </Form.Item>
+                <Form.Item name="type">
+                  <Select
+                    placeholder="企业类别"
+                    style={{ width: 110 }}
+                    allowClear
+                  >
+                    {window.companyType.map((item, index) => (
+                      <Option key={index} value={item}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item name="area">
+                  <Cascader
+                   placeholder="地区"
+                    style={{ width: 110 }}
+                    options={options}
+                    expandTrigger="hover"
+                    displayRender={this.displayRender}
+                  />
+                </Form.Item>
+                <Form.Item name="name">
+                  <Input placeholder="企业名称" />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    搜索
+                  </Button>
+                </Form.Item>
+              </Space>
+            </Form>
+          </Col>
+        </Row>
+        {/* topbar与table之间的间隔 */}
+        <Row>
+          <div style={{ marginBottom: 20 }}></div>
+        </Row>
+        <EnterpriseTable data={this.state.dataSource.records} />
+        <Pagination
+          style={{ position: "absolute", right: "40px" }}
+          showQuickJumper
+          showSizeChanger={true}
+          defaultPageSize={5}
+          pageSizeOptions={[5, 10, 20, 50, 100]}
+          current={this.state.dataSource.current}
+          total={this.state.dataSource.total}
+          onChange={this.onChange}
+        />
+      </div>
+    );
+  }
 }
 
 export default EnterpriseDetails;

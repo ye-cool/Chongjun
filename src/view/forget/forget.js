@@ -1,0 +1,284 @@
+import React, { useState, useEffect } from "react";
+import "./forget.css";
+import {
+  Layout,
+  Input,
+  Space,
+  Button,
+  Tabs,
+  Row,
+  Col,
+  Form,
+  message,
+  Radio,
+} from "antd";
+import CenterRow from "../../component/centerRow/centerRow";
+import { getChangePasswordVerification } from "../../apis/verification";
+import { adminChangePasswordByPhone } from "../../apis/admin";
+import { companyChangePasswordByPhone } from "../../apis/company";
+
+const { Header, Footer, Content } = Layout;
+const { TabPane } = Tabs;
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
+
+// 注册
+function Forget() {
+  const [time, setTime] = useState(60);
+  const [over, setOver] = useState(false);
+  const [role, setRole] = useState("");
+  const [phone, setPhone] = useState("");
+  useEffect(() => {
+    if (time < 60 && time > 0) {
+      let timerID = setInterval(() => tick(), 1000);
+      return () => clearInterval(timerID);
+    } else {
+      setTime(60);
+    }
+  });
+
+  const getPhone = (e) => {
+    setPhone(e.target.value);
+  };
+  const isEnterpriseUser = (e) => {
+    console.log(e.target.value);
+
+    if (e.target.value == "company") {
+      setRole("company");
+    } else if (e.target.value == "admin") {
+      setRole("admin");
+    }
+  };
+  const tick = () => {
+    // 暂停，或已结束
+    if (over) return;
+    if (time === 0) setOver(true);
+    else {
+      let Time = time;
+      setTime(Time - 1);
+    }
+  };
+  const getVerification = () => {
+    if (phone == "" || role == "") {
+      message.warning("请输入手机号码并选择身份！");
+      return;
+    }
+    tick();
+    const param = {
+      loginType: role,
+      phone: phone,
+    };
+    getChangePasswordVerification(param).then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          message.success("已发送验证码，请注意接收");
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
+  };
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
+    const param = {
+      newPassword: values.password,
+      phone: values.phone,
+      verificationCode: values.verification_code,
+    };
+    if (role == "admin") {
+      adminChangePasswordByPhone(param).then(
+        (res) => {
+          console.log("get article response:", res);
+          if (res.code == 600) {
+            message.success("已成功修改密码");
+          } else {
+            message.error(res.message);
+          }
+        },
+        (error) => {
+          console.log("get response failed!");
+        }
+      );
+    } else if (role == "company") {
+      companyChangePasswordByPhone(param).then(
+        (res) => {
+          console.log("get article response:", res);
+          if (res.code == 600) {
+            message.success("已成功修改密码");
+          } else {
+            message.error(res.message);
+          }
+        },
+        (error) => {
+          console.log("get response failed!");
+        }
+      );
+    }
+  };
+  return (
+    <Layout className="forget-layout">
+      <Header style={{ padding: 0 }}>
+        <div className="forget-header-background"></div>
+      </Header>
+      <Content>
+        <Space className="forget-space" direction="vertical" size={30}>
+          <CenterRow>
+            <div className="forget-title">崇军行</div>
+          </CenterRow>
+          <CenterRow>
+            <Form
+              {...formItemLayout}
+              name="register"
+              onFinish={onFinish}
+              scrollToFirstError
+            >
+              <Form.Item
+                name="phone"
+                label="手机号码验证"
+                rules={[
+                  {
+                    required: true,
+                    message: "请输入手机号码！",
+                  },
+                ]}
+              >
+                <Input
+                  className="forget-input"
+                  placeholder="手机号码"
+                  onChange={getPhone}
+                />
+              </Form.Item>
+              <Form.Item
+                {...tailFormItemLayout}
+                name="verification_code"
+                rules={[
+                  {
+                    required: true,
+                    message: "请输入验证码！",
+                  },
+                ]}
+              >
+                <Row>
+                  <Col>
+                    <Input
+                      className="forget-input-small"
+                      placeholder="验证码"
+                    />
+                  </Col>
+                  <Col>
+                    {time == 60 || time == 0 ? (
+                      <Button ghost onClick={getVerification}>
+                        获取验证码
+                      </Button>
+                    ) : (
+                      <div>{time + " s"}</div>
+                    )}
+                  </Col>
+                </Row>
+              </Form.Item>
+              <Form.Item
+                name="role"
+                label="身份"
+                rules={[
+                  {
+                    required: true,
+                    message: "请选择身份！",
+                  },
+                ]}
+              >
+                <Radio.Group
+                  className="signup-radio"
+                  onChange={isEnterpriseUser}
+                >
+                  <Radio value={"company"}>企业用户</Radio>
+                  <Radio value={"admin"}>管理端用户</Radio>\
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                name="password"
+                label="新密码"
+                rules={[
+                  {
+                    required: true,
+                    message: "请输入密码!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  className="forget-input"
+                  placeholder="请输入密码"
+                />
+              </Form.Item>
+              <Form.Item
+                name="confirm"
+                label="确认密码"
+                dependencies={["password"]}
+                rules={[
+                  {
+                    required: true,
+                    message: "请确认密码!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+
+                      return Promise.reject(
+                        new Error("两次输入的密码必须一致!")
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  className="forget-input"
+                  placeholder="请输入密码"
+                />
+              </Form.Item>
+              <Form.Item {...tailFormItemLayout}>
+                <Button
+                  className="forget-button"
+                  type="primary"
+                  htmlType="submit"
+                  size={"large"}
+                >
+                  确定
+                </Button>
+              </Form.Item>
+            </Form>
+          </CenterRow>
+        </Space>
+      </Content>
+      <Footer>
+        <div className="forget-footer-background"></div>
+      </Footer>
+    </Layout>
+  );
+}
+
+export default Forget;

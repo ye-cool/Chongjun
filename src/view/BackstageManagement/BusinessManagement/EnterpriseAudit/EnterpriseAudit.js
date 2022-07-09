@@ -1,114 +1,71 @@
 import React from "react";
 import "./EnterpriseAudit.css";
-import { Col, Row, Button, Space, Table } from "antd";
+import { Col, Row, message, Pagination } from "antd";
 import { SwapOutlined, PlusOutlined } from "@ant-design/icons";
+import EnterpriseAuditTable from "../../../../component/table/EnterpriseAuditTable/EnterpriseAuditTable";
+import { getSuperAccountNotAudited } from "../../../../apis/admin";
 
-function EnterpriseAudit() {
-  const dataSource = [
-    {
-      key: "1",
-      ApplicationTime: "2021.11.23 17:45",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "13578787878",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      operator: "管理员A",
-    },
-    {
-      key: "2",
-      ApplicationTime: "2021.11.23 17:45",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "13578787878",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      operator: "管理员A",
-    },
-    {
-      key: "3",
-      ApplicationTime: "2021.11.23 17:45",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "13578787878",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      operator: "管理员A",
-    },
-    {
-      key: "4",
-      ApplicationTime: "2021.11.23 17:45",
-      CompanyName: "国贸供应链服务有限公司",
-      account: "13578787878",
-      BusinessCategory: "民营企业",
-      area: "北京  四川",
-      operator: "管理员A",
-    },
-  ];
-
-  const columns = [
-    {
-      title: "申请时间",
-      dataIndex: "ApplicationTime",
-      key: "ApplicationTime",
-      width: 70,
-    },
-    {
-      title: "企业名称",
-      dataIndex: "CompanyName",
-      key: "CompanyName",
-      width: 110,
-    },
-    {
-      title: "账号",
-      dataIndex: "account",
-      key: "account",
-      width: 70,
-    },
-    {
-      title: "企业类别",
-      dataIndex: "BusinessCategory",
-      key: "BusinessCategory",
-      width: 70,
-    },
-    {
-      title: "所在地区",
-      dataIndex: "area",
-      key: "area",
-      width: 70,
-    },
-    {
-      title: "操作人",
-      dataIndex: "operator",
-      key: "operator",
-      width: 70,
-    },
-    {
-      title: "操作|状态",
-      key: "OperateOrState",
-      width: 70,
-      render: (text, record) => (
-        <div>
-          <a>通过 </a>
-          <a>拒绝</a>
-        </div>
-      ),
-    },
-  ];
-  return (
-    <div>
-      <Row justify="end">
-        <Col span={2}></Col>
-        <Col span={1}></Col>
-      </Row>
-      {/* topbar与table之间的间隔 */}
-      <Row>
-        <div style={{ marginBottom: 45 }}></div>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Table columns={columns} dataSource={dataSource} />
-        </Col>
-      </Row>
-    </div>
-  );
+class EnterpriseAudit extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { dataSource: [] };
+  }
+  componentDidMount() {
+    this.getList();
+  }
+  getList = (param) => {
+    getSuperAccountNotAudited(param).then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          this.setState({
+            dataSource: res.data,
+          });
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
+  };
+  onChange = (pageNumber, pageSize) => {
+    console.log("Page: ", pageNumber);
+    console.log("Pagesize: ", pageSize);
+    this.getList({
+      page: pageNumber,
+      size: pageSize,
+    });
+  };
+  render() {
+    return (
+      <div>
+        <Row justify="end">
+          <Col span={2}></Col>
+          <Col span={1}></Col>
+        </Row>
+        {/* topbar与table之间的间隔 */}
+        <Row>
+          <div style={{ marginBottom: 45 }}></div>
+        </Row>
+        <EnterpriseAuditTable
+          data={this.state.dataSource.records}
+          getList={this.getList}
+        />
+        <Pagination
+          style={{ position: "absolute", right: "40px" }}
+          showQuickJumper
+          showSizeChanger={true}
+          defaultPageSize={5}
+          pageSizeOptions={[5, 10, 20, 50, 100]}
+          current={this.state.dataSource.current}
+          total={this.state.dataSource.total}
+          onChange={this.onChange}
+        />
+      </div>
+    );
+  }
 }
 
 export default EnterpriseAudit;

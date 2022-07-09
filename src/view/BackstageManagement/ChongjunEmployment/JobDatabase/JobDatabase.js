@@ -1,192 +1,151 @@
 import React, { useState } from "react";
 import "./JobDatabase.css";
-import { Col, Row, Button, Space, Select, Input, Table, Modal } from "antd";
+import { Col, Row, Button, Space, Select, Input, message, Form, Pagination } from "antd";
 import { SwapOutlined, PlusOutlined } from "@ant-design/icons";
+import JobTable from "../../../../component/table/JobTable/JobTable";
+import { getJob } from "../../../../apis/admin";
 
 const { Option } = Select;
 
-function ResumeDatabase() {
-  const dataSource = [
-    {
-      key: "1",
-      JobTitle: "初级会计",
-      JobCategories: "其他",
-      JobRequirements: "经验不限|大专|四川省",
-      salary: "6.0~8.5 千元/月",
-      favorites: "20",
-      ResumeDelivery: "10",
-      ResumeDownload: "10",
-      InterviewInvitation: "2",
-    },
-    {
-      key: "2",
-      JobTitle: "初级会计",
-      JobCategories: "其他",
-      JobRequirements: "经验不限|大专|四川省",
-      salary: "6.0~8.5 千元/月",
-      favorites: "20",
-      ResumeDelivery: "10",
-      ResumeDownload: "10",
-      InterviewInvitation: "2",
-    },
-    {
-      key: "3",
-      JobTitle: "初级会计",
-      JobCategories: "其他",
-      JobRequirements: "经验不限|大专|四川省",
-      salary: "6.0~8.5 千元/月",
-      favorites: "20",
-      ResumeDelivery: "10",
-      ResumeDownload: "10",
-      InterviewInvitation: "2",
-    },
-    {
-      key: "4",
-      JobTitle: "初级会计",
-      JobCategories: "其他",
-      JobRequirements: "经验不限|大专|四川省",
-      salary: "6.0~8.5 千元/月",
-      favorites: "20",
-      ResumeDelivery: "10",
-      ResumeDownload: "10",
-      InterviewInvitation: "2",
-    },
-  ];
-
-  const columns = [
-    {
-      title: "职位名称",
-      dataIndex: "JobTitle",
-      key: "JobTitle",
-      width: 20,
-    },
-    {
-      title: "职位类别",
-      dataIndex: "JobCategories",
-      key: "JobCategories",
-      width: 70,
-    },
-    {
-      title: "职位要求",
-      dataIndex: "JobRequirements",
-      key: "JobRequirements",
-      width: 80,
-    },
-    {
-      title: "薪资",
-      dataIndex: "salary",
-      key: "salary",
-      width: 70,
-    },
-    {
-      title: "收藏数",
-      dataIndex: "favorites",
-      key: "favorites",
-      width: 70,
-    },
-    {
-      title: "简历投递",
-      dataIndex: "ResumeDelivery",
-      key: "ResumeDelivery",
-      width: 70,
-      render: (text, record) => <a onClick={showModal}>{text}</a>,
-    },
-    {
-      title: "简历下载",
-      dataIndex: "ResumeDownload",
-      key: "ResumeDownload",
-      width: 70,
-      render: (text, record) => <a onClick={showModal}>{text}</a>,
-    },
-    {
-      title: "面试邀约",
-      dataIndex: "InterviewInvitation",
-      key: "InterviewInvitation",
-      width: 70,
-      render: (text, record) => <a onClick={showModal}>{text}</a>,
-    },
-    {
-      title: "操作",
-      key: "operate",
-      width: 70,
-      render: (text, record) => <a href="/admin/ChongjunEmployment/JobDatabase/JobDetail">查看详情</a>,
-    },
-  ];
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
+class JobDatabase extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource: [],
+    };
+  }
+  componentDidMount() {
+    this.getList();
+  }
+  getList = (param) => {
+    getJob(param).then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          this.setState({
+            dataSource: res.data,
+          });
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
   };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
+  sortByCount = () => {
+    this.getList({
+      sortByCount: true,
+      upOrDown: false,
+    });
   };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  sortBySal = () => {
+    this.getList({
+      sortBySal: true,
+      upOrDown: false,
+    });
   };
-  return (
-    <div>
-      <Row justify="start">
-        <Col span={1}></Col>
-        <Col span={6}>
-          <Space size={15}>
-            <span>
-              排序
-              <SwapOutlined />:
-            </span>
-            <Button>投递人数</Button>
-            <Button>薪资</Button>
-          </Space>
-        </Col>
-        <Col span={14}>
-          <Space size={15}>
-            <span>搜索条件:</span>
-            <Select placeholder="职业类别" style={{ width: 110 }} allowClear>
-              <Option value="行政类">行政类</Option>
-              <Option value="管理类">管理类</Option>
-              <Option value="营销类">营销类</Option>
-              <Option value="技术类">技术类</Option>
-              <Option value="其他">其他</Option>
-            </Select>
-            <Select placeholder="地区" style={{ width: 110 }} allowClear>
-              <Option value="地区不限">地区不限</Option>
-            </Select>
-            <Input placeholder="职位名称" />
-            <Button>搜索</Button>
-          </Space>
-        </Col>
-        <Col span={2}>
-          <Button>
-            <PlusOutlined />
-            新增职位
-          </Button>
-        </Col>
-      </Row>
-      {/* topbar与table之间的间隔 */}
-      <Row>
-        <div style={{ marginBottom: 20 }}></div>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Table columns={columns} dataSource={dataSource} />
-        </Col>
-      </Row>
-
-      {/* 对话框 */}
-      <Modal
-        title="Basic Modal"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Modal>
-    </div>
-  );
+  onFinish = (values) => {
+    console.log("Success:", values);
+    this.getList({
+      name: values.name,
+      area: values.area,
+      type: values.type,
+    });
+  };
+  onChange = (pageNumber, pageSize) => {
+    console.log("Page: ", pageNumber);
+    console.log("Pagesize: ", pageSize);
+    this.getList({
+      page: pageNumber,
+      size: pageSize,
+    });
+  };
+  render() {
+    return (
+      <div>
+        <Row justify="start">
+          <Col span={1}></Col>
+          <Col span={6}>
+            <Space size={15}>
+              <span>
+                排序
+                <SwapOutlined />:
+              </span>
+              <Button onClick={this.sortByCount}>投递人数</Button>
+              <Button onClick={this.sortBySal}>薪资</Button>
+            </Space>
+          </Col>
+          <Col span={14}>
+            <Form name="basic" onFinish={this.onFinish} autoComplete="off">
+              <Space size={15}>
+                                <Form.Item>
+                  <span>搜索条件:</span>
+                </Form.Item>
+                <Form.Item name="type">
+                  <Select
+                    placeholder="职业类别"
+                    style={{ width: 110 }}
+                    allowClear
+                  >
+                    {window.jobType.map((item, index) => (
+                      <Option key={index} value={item}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item name="area">
+                  <Select placeholder="地区" style={{ width: 110 }} allowClear>
+                    {window.area.map((item, index) => (
+                      <Option key={index} value={item}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item name="name">
+                  <Input placeholder="职位名称" />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    搜索
+                  </Button>
+                </Form.Item>
+              </Space>
+            </Form>
+          </Col>
+          <Col span={2}>
+            <Button>
+              <PlusOutlined />
+              <a
+                style={{ color: "black" }}
+                href={"/#/admin/ChongjunEmployment/JobDatabase/addposition"}
+              >
+                新增职位
+              </a>
+            </Button>
+          </Col>
+        </Row>
+        {/* topbar与table之间的间隔 */}
+        <Row>
+          <div style={{ marginBottom: 20 }}></div>
+        </Row>
+        <JobTable data={this.state.dataSource.records} />
+        <Pagination
+          style={{ position: "absolute", right: "40px" }}
+          showQuickJumper
+          showSizeChanger={true}
+          defaultPageSize={5}
+          pageSizeOptions={[5,10,20,50,100]}
+          current={this.state.dataSource.current}
+          total={this.state.dataSource.total}
+          onChange={this.onChange}
+        />
+      </div>
+    );
+  }
 }
 
-export default ResumeDatabase;
+export default JobDatabase;

@@ -13,27 +13,38 @@ class MyMenu extends React.Component {
   }
 
   handleClick = (e) => {
-    // console.log("click ", e);
     // menu的初始化
     // 获取当前路径
-    const pathname = window.location.pathname;
+
+    const pathname = window.location.hash;
     //获取当前所在的目录层级
     const rank = pathname.split("/");
     //rank = ["","policy-engine","nas-client"]
-    if (rank.length == 3) {
-      this.setState({
-        selectedKeys: [pathname],
-      });
-    } else if (rank.length == 4) {
-      this.setState({
-        selectedKeys: [pathname],
-        openKeys: [rank.slice(2, 3).join("/")],
-      });
-    } else {
-      this.setState({
-        selectedKeys: [rank.slice(1, 4).join("/")],
-        openKeys: [rank.slice(2, 3).join("/")],
-      });
+
+    // 获取身份
+    let role = localStorage.getItem("role");
+    if (role == "admin") {
+      if (rank.length == 4) {
+        this.setState({
+          selectedKeys: [rank.slice(2).join("/")],
+          openKeys: [rank.slice(2, 3).join("/")],
+        });
+      } else {
+        this.setState({
+          selectedKeys: [rank.slice(1, 5).join("/")],
+          openKeys: [rank.slice(3, 4).join("/")],
+        });
+      }
+    } else if (role == "company") {
+      if (rank.length == 3) {
+        this.setState({
+          selectedKeys: [rank.slice(2, 3).join("/")],
+        });
+      } else if (rank.length == 4) {
+        this.setState({
+          selectedKeys: [rank.slice(2, 3).join("/")],
+        });
+      }
     }
   };
   openMenu = (e) => {
@@ -43,32 +54,52 @@ class MyMenu extends React.Component {
   };
 
   componentDidMount() {
-    // 刷新挂载组件
-    const menuTreeNode = this.renderMenu(BackstageMenuList);
-    this.setState({
-      menuTreeNode,
-    });
+    let localStorage = window.localStorage;
+    let role = localStorage.getItem("role");
+    console.log(role);
+    // 刷新挂载组件allCookies
+    if (role == "company") {
+      const menuTreeNode = this.renderMenu(EnterpriseMenuList);
+      this.setState({
+        menuTreeNode,
+      });
+    } else if (role == "admin") {
+      const menuTreeNode = this.renderMenu(BackstageMenuList);
+      this.setState({
+        menuTreeNode,
+      });
+    }
 
     // 刷新后menu的初始化
     // 获取当前路径
-    const pathname = window.location.pathname;
+    const pathname = window.location.hash;
+    console.log(pathname);
     //获取当前所在的目录层级
     const rank = pathname.split("/");
     //rank = ["","policy-engine","nas-client"]
-    if (rank.length == 3) {
-      this.setState({
-        selectedKeys: [pathname],
-      });
-    } else if (rank.length == 4) {
-      this.setState({
-        selectedKeys: [pathname],
-        openKeys: [rank.slice(2, 3).join("/")],
-      });
-    } else {
-      this.setState({
-        selectedKeys: [rank.slice(0, 4).join("/")],
-        openKeys: [rank.slice(2, 3).join("/")],
-      });
+
+    if (role == "admin") {
+      if (rank.length == 4) {
+        this.setState({
+          selectedKeys: [rank.slice(2).join("/")],
+          openKeys: [rank.slice(2, 3).join("/")],
+        });
+      } else {
+        this.setState({
+          selectedKeys: [rank.slice(2, 4).join("/")],
+          openKeys: [rank.slice(2, 3).join("/")],
+        });
+      }
+    } else if (role == "company") {
+      if (rank.length == 3) {
+        this.setState({
+          selectedKeys: [rank.slice(2, 3).join("/")],
+        });
+      } else if (rank.length == 4) {
+        this.setState({
+          selectedKeys: [rank.slice(2, 3).join("/")],
+        });
+      }
     }
   }
 

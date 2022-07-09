@@ -1,0 +1,130 @@
+# Details
+
+Date : 2022-03-13 21:20:00
+
+Directory d:\VscodeField\ChongJun
+
+Total : 115 files,  20263 codes, 323 comments, 361 blanks, all 20947 lines
+
+[summary](results.md) / details / [diff summary](diff.md) / [diff details](diff-details.md)
+
+## Files
+| filename | language | code | comment | blank | total |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| [README.md](/README.md) | Markdown | 38 | 0 | 33 | 71 |
+| [package-lock.json](/package-lock.json) | JSON | 12,034 | 0 | 1 | 12,035 |
+| [package.json](/package.json) | JSON | 45 | 0 | 1 | 46 |
+| [public/index.html](/public/index.html) | HTML | 20 | 23 | 1 | 44 |
+| [public/manifest.json](/public/manifest.json) | JSON | 25 | 0 | 1 | 26 |
+| [src/App.js](/src/App.js) | JavaScript | 17 | 1 | 3 | 21 |
+| [src/IRouter.js](/src/IRouter.js) | JavaScript | 215 | 21 | 5 | 241 |
+| [src/apis/admin.js](/src/apis/admin.js) | JavaScript | 452 | 32 | 3 | 487 |
+| [src/apis/company.js](/src/apis/company.js) | JavaScript | 396 | 28 | 5 | 429 |
+| [src/apis/urls.js](/src/apis/urls.js) | JavaScript | 97 | 70 | 5 | 172 |
+| [src/apis/verification.js](/src/apis/verification.js) | JavaScript | 42 | 0 | 1 | 43 |
+| [src/component/centerRow/centerRow.js](/src/component/centerRow/centerRow.js) | JavaScript | 14 | 0 | 2 | 16 |
+| [src/component/menu/menu.css](/src/component/menu/menu.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/component/menu/menu.js](/src/component/menu/menu.js) | JavaScript | 119 | 13 | 10 | 142 |
+| [src/component/table/AccountTable/AccountTable.js](/src/component/table/AccountTable/AccountTable.js) | JavaScript | 268 | 0 | 6 | 274 |
+| [src/component/table/AdminTable/AdminTable.js](/src/component/table/AdminTable/AdminTable.js) | JavaScript | 174 | 0 | 4 | 178 |
+| [src/component/table/CarouselTable/CarouselTable.js](/src/component/table/CarouselTable/CarouselTable.js) | JavaScript | 181 | 0 | 6 | 187 |
+| [src/component/table/EJobTable/EJobTable.js](/src/component/table/EJobTable/EJobTable.js) | JavaScript | 124 | 0 | 7 | 131 |
+| [src/component/table/EResumeTable/EResumeTable.js](/src/component/table/EResumeTable/EResumeTable.js) | JavaScript | 65 | 0 | 4 | 69 |
+| [src/component/table/ESpecialRecruitmentTable/ESpecialRecruitmentTable.js](/src/component/table/ESpecialRecruitmentTable/ESpecialRecruitmentTable.js) | JavaScript | 86 | 0 | 3 | 89 |
+| [src/component/table/EnterpriseAccountTable/EnterpriseAccountTable.js](/src/component/table/EnterpriseAccountTable/EnterpriseAccountTable.js) | JavaScript | 89 | 26 | 2 | 117 |
+| [src/component/table/EnterpriseAuditTable/EnterpriseAuditTable.js](/src/component/table/EnterpriseAuditTable/EnterpriseAuditTable.js) | JavaScript | 123 | 0 | 3 | 126 |
+| [src/component/table/EnterpriseTable/EnterpriseTable.js](/src/component/table/EnterpriseTable/EnterpriseTable.js) | JavaScript | 63 | 0 | 2 | 65 |
+| [src/component/table/JobTable/JobTable.js](/src/component/table/JobTable/JobTable.js) | JavaScript | 118 | 0 | 7 | 125 |
+| [src/component/table/ResumeTable/ResumeTable.js](/src/component/table/ResumeTable/ResumeTable.js) | JavaScript | 74 | 0 | 3 | 77 |
+| [src/component/table/SpecialRecruitmentTable/SpecialRecruitmentTable.js](/src/component/table/SpecialRecruitmentTable/SpecialRecruitmentTable.js) | JavaScript | 80 | 0 | 3 | 83 |
+| [src/config/BackstageMenuConfig.js](/src/config/BackstageMenuConfig.js) | JavaScript | 71 | 29 | 2 | 102 |
+| [src/config/EnterpriseMenuConfig.js](/src/config/EnterpriseMenuConfig.js) | JavaScript | 27 | 1 | 2 | 30 |
+| [src/config/adminType.js](/src/config/adminType.js) | JavaScript | 4 | 2 | 1 | 7 |
+| [src/config/area.js](/src/config/area.js) | JavaScript | 36 | 2 | 1 | 39 |
+| [src/config/companyType.js](/src/config/companyType.js) | JavaScript | 1 | 2 | 1 | 4 |
+| [src/config/educationRequire.js](/src/config/educationRequire.js) | JavaScript | 1 | 2 | 1 | 4 |
+| [src/config/expRequire.js](/src/config/expRequire.js) | JavaScript | 1 | 2 | 1 | 4 |
+| [src/config/jobType.js](/src/config/jobType.js) | JavaScript | 1 | 2 | 1 | 4 |
+| [src/index.css](/src/index.css) | CSS | 3 | 1 | 1 | 5 |
+| [src/index.js](/src/index.js) | JavaScript | 10 | 0 | 3 | 13 |
+| [src/utils/clearName.js](/src/utils/clearName.js) | JavaScript | 3 | 0 | 1 | 4 |
+| [src/utils/clearToken.js](/src/utils/clearToken.js) | JavaScript | 3 | 0 | 0 | 3 |
+| [src/utils/http.js](/src/utils/http.js) | JavaScript | 240 | 54 | 25 | 319 |
+| [src/view/BackstageManagement/AuthorityManagement/AccountManagement/AccountManagement.css](/src/view/BackstageManagement/AuthorityManagement/AccountManagement/AccountManagement.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/AuthorityManagement/AccountManagement/AccountManagement.js](/src/view/BackstageManagement/AuthorityManagement/AccountManagement/AccountManagement.js) | JavaScript | 46 | 0 | 3 | 49 |
+| [src/view/BackstageManagement/AuthorityManagement/AdminReview/AdminReview.css](/src/view/BackstageManagement/AuthorityManagement/AdminReview/AdminReview.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/AuthorityManagement/AdminReview/AdminReview.js](/src/view/BackstageManagement/AuthorityManagement/AdminReview/AdminReview.js) | JavaScript | 45 | 0 | 4 | 49 |
+| [src/view/BackstageManagement/BillingManagement/BillingInformationCheck/BillingInformationCheck.css](/src/view/BackstageManagement/BillingManagement/BillingInformationCheck/BillingInformationCheck.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/BillingManagement/BillingInformationCheck/BillingInformationCheck.js](/src/view/BackstageManagement/BillingManagement/BillingInformationCheck/BillingInformationCheck.js) | JavaScript | 11 | 0 | 2 | 13 |
+| [src/view/BackstageManagement/BillingManagement/BillingInformationProcessing/BillingInformationProcessing.css](/src/view/BackstageManagement/BillingManagement/BillingInformationProcessing/BillingInformationProcessing.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/BillingManagement/BillingInformationProcessing/BillingInformationProcessing.js](/src/view/BackstageManagement/BillingManagement/BillingInformationProcessing/BillingInformationProcessing.js) | JavaScript | 11 | 0 | 4 | 15 |
+| [src/view/BackstageManagement/BusinessManagement/EnterpriseAccountManagement/EnterpriseAccountManagement.css](/src/view/BackstageManagement/BusinessManagement/EnterpriseAccountManagement/EnterpriseAccountManagement.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/BusinessManagement/EnterpriseAccountManagement/EnterpriseAccountManagement.js](/src/view/BackstageManagement/BusinessManagement/EnterpriseAccountManagement/EnterpriseAccountManagement.js) | JavaScript | 61 | 0 | 4 | 65 |
+| [src/view/BackstageManagement/BusinessManagement/EnterpriseAudit/EnterpriseAudit.css](/src/view/BackstageManagement/BusinessManagement/EnterpriseAudit/EnterpriseAudit.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/BusinessManagement/EnterpriseAudit/EnterpriseAudit.js](/src/view/BackstageManagement/BusinessManagement/EnterpriseAudit/EnterpriseAudit.js) | JavaScript | 45 | 0 | 3 | 48 |
+| [src/view/BackstageManagement/BusinessManagement/EnterpriseDetails/EnterpriseDetails.css](/src/view/BackstageManagement/BusinessManagement/EnterpriseDetails/EnterpriseDetails.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/BusinessManagement/EnterpriseDetails/EnterpriseDetails.js](/src/view/BackstageManagement/BusinessManagement/EnterpriseDetails/EnterpriseDetails.js) | JavaScript | 81 | 0 | 3 | 84 |
+| [src/view/BackstageManagement/ChongjunEmployment/JobDatabase/JobDatabase.css](/src/view/BackstageManagement/ChongjunEmployment/JobDatabase/JobDatabase.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/ChongjunEmployment/JobDatabase/JobDatabase.js](/src/view/BackstageManagement/ChongjunEmployment/JobDatabase/JobDatabase.js) | JavaScript | 123 | 0 | 5 | 128 |
+| [src/view/BackstageManagement/ChongjunEmployment/ResumeDatabase/ResumeDatabase.css](/src/view/BackstageManagement/ChongjunEmployment/ResumeDatabase/ResumeDatabase.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/ChongjunEmployment/ResumeDatabase/ResumeDatabase.js](/src/view/BackstageManagement/ChongjunEmployment/ResumeDatabase/ResumeDatabase.js) | JavaScript | 111 | 0 | 3 | 114 |
+| [src/view/BackstageManagement/ChongjunEmployment/SpecialRecruitment/SpecialRecruitment.css](/src/view/BackstageManagement/ChongjunEmployment/SpecialRecruitment/SpecialRecruitment.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/ChongjunEmployment/SpecialRecruitment/SpecialRecruitment.js](/src/view/BackstageManagement/ChongjunEmployment/SpecialRecruitment/SpecialRecruitment.js) | JavaScript | 52 | 0 | 4 | 56 |
+| [src/view/BackstageManagement/CourseManagement/AllOrders/AllOrders.css](/src/view/BackstageManagement/CourseManagement/AllOrders/AllOrders.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/CourseManagement/AllOrders/AllOrders.js](/src/view/BackstageManagement/CourseManagement/AllOrders/AllOrders.js) | JavaScript | 11 | 0 | 3 | 14 |
+| [src/view/BackstageManagement/CourseManagement/RefundProcessing/RefundProcessing.css](/src/view/BackstageManagement/CourseManagement/RefundProcessing/RefundProcessing.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/CourseManagement/RefundProcessing/RefundProcessing.js](/src/view/BackstageManagement/CourseManagement/RefundProcessing/RefundProcessing.js) | JavaScript | 11 | 0 | 4 | 15 |
+| [src/view/BackstageManagement/Detail/EnterpriseDetail/EnterpriseDetail.css](/src/view/BackstageManagement/Detail/EnterpriseDetail/EnterpriseDetail.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/Detail/EnterpriseDetail/EnterpriseDetail.js](/src/view/BackstageManagement/Detail/EnterpriseDetail/EnterpriseDetail.js) | JavaScript | 102 | 0 | 3 | 105 |
+| [src/view/BackstageManagement/Detail/JobDetail/JobDetail.css](/src/view/BackstageManagement/Detail/JobDetail/JobDetail.css) | CSS | 3 | 0 | 0 | 3 |
+| [src/view/BackstageManagement/Detail/JobDetail/JobDetail.js](/src/view/BackstageManagement/Detail/JobDetail/JobDetail.js) | JavaScript | 189 | 0 | 3 | 192 |
+| [src/view/BackstageManagement/Detail/ResumeDetail/ResumeDetail.css](/src/view/BackstageManagement/Detail/ResumeDetail/ResumeDetail.css) | CSS | 3 | 0 | 0 | 3 |
+| [src/view/BackstageManagement/Detail/ResumeDetail/ResumeDetail.js](/src/view/BackstageManagement/Detail/ResumeDetail/ResumeDetail.js) | JavaScript | 273 | 0 | 3 | 276 |
+| [src/view/BackstageManagement/Detail/SpecialDetail/SpecialDetail.css](/src/view/BackstageManagement/Detail/SpecialDetail/SpecialDetail.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/Detail/SpecialDetail/SpecialDetail.js](/src/view/BackstageManagement/Detail/SpecialDetail/SpecialDetail.js) | JavaScript | 126 | 0 | 4 | 130 |
+| [src/view/BackstageManagement/DisplayManagement/AboutUs/AboutUs.css](/src/view/BackstageManagement/DisplayManagement/AboutUs/AboutUs.css) | CSS | 3 | 0 | 0 | 3 |
+| [src/view/BackstageManagement/DisplayManagement/AboutUs/AboutUs.js](/src/view/BackstageManagement/DisplayManagement/AboutUs/AboutUs.js) | JavaScript | 278 | 0 | 12 | 290 |
+| [src/view/BackstageManagement/DisplayManagement/CarouselSettings/CarouselSettings.css](/src/view/BackstageManagement/DisplayManagement/CarouselSettings/CarouselSettings.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/BackstageManagement/DisplayManagement/CarouselSettings/CarouselSettings.js](/src/view/BackstageManagement/DisplayManagement/CarouselSettings/CarouselSettings.js) | JavaScript | 44 | 0 | 3 | 47 |
+| [src/view/BackstageManagement/DisplayManagement/PrivacyAgreement/PrivacyAgreement.css](/src/view/BackstageManagement/DisplayManagement/PrivacyAgreement/PrivacyAgreement.css) | CSS | 3 | 0 | 1 | 4 |
+| [src/view/BackstageManagement/DisplayManagement/PrivacyAgreement/PrivacyAgreement.js](/src/view/BackstageManagement/DisplayManagement/PrivacyAgreement/PrivacyAgreement.js) | JavaScript | 99 | 0 | 4 | 103 |
+| [src/view/EnterpriseManagement/CorporateInformation/CorporateInformation.css](/src/view/EnterpriseManagement/CorporateInformation/CorporateInformation.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/CorporateInformation/CorporateInformation.js](/src/view/EnterpriseManagement/CorporateInformation/CorporateInformation.js) | JavaScript | 120 | 0 | 4 | 124 |
+| [src/view/EnterpriseManagement/Detail/EPositionResumeDetail/EPositionResumeDetail.css](/src/view/EnterpriseManagement/Detail/EPositionResumeDetail/EPositionResumeDetail.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Detail/EPositionResumeDetail/EPositionResumeDetail.js](/src/view/EnterpriseManagement/Detail/EPositionResumeDetail/EPositionResumeDetail.js) | JavaScript | 132 | 0 | 3 | 135 |
+| [src/view/EnterpriseManagement/Detail/EResumeDetail/EResumeDetail.css](/src/view/EnterpriseManagement/Detail/EResumeDetail/EResumeDetail.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Detail/EResumeDetail/EResumeDetail.js](/src/view/EnterpriseManagement/Detail/EResumeDetail/EResumeDetail.js) | JavaScript | 77 | 0 | 4 | 81 |
+| [src/view/EnterpriseManagement/Detail/ESpecialDetail/ESpecialDetail.css](/src/view/EnterpriseManagement/Detail/ESpecialDetail/ESpecialDetail.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Detail/ESpecialDetail/ESpecialDetail.js](/src/view/EnterpriseManagement/Detail/ESpecialDetail/ESpecialDetail.js) | JavaScript | 137 | 0 | 4 | 141 |
+| [src/view/EnterpriseManagement/Detail/ESpecialJobDetail/ESpecialJobDetail.css](/src/view/EnterpriseManagement/Detail/ESpecialJobDetail/ESpecialJobDetail.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Detail/ESpecialJobDetail/ESpecialJobDetail.js](/src/view/EnterpriseManagement/Detail/ESpecialJobDetail/ESpecialJobDetail.js) | JavaScript | 91 | 0 | 4 | 95 |
+| [src/view/EnterpriseManagement/Detail/EjobDetail/EjobDetail.css](/src/view/EnterpriseManagement/Detail/EjobDetail/EjobDetail.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Detail/EjobDetail/EjobDetail.js](/src/view/EnterpriseManagement/Detail/EjobDetail/EjobDetail.js) | JavaScript | 195 | 0 | 3 | 198 |
+| [src/view/EnterpriseManagement/EAccountManagement/EaccountManagement/EAccountManagement.css](/src/view/EnterpriseManagement/EAccountManagement/EaccountManagement/EAccountManagement.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/EAccountManagement/EaccountManagement/EAccountManagement.js](/src/view/EnterpriseManagement/EAccountManagement/EaccountManagement/EAccountManagement.js) | JavaScript | 48 | 0 | 3 | 51 |
+| [src/view/EnterpriseManagement/EAccountManagement/EadminReview/EAdminReview.css](/src/view/EnterpriseManagement/EAccountManagement/EadminReview/EAdminReview.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/EAccountManagement/EadminReview/EAdminReview.js](/src/view/EnterpriseManagement/EAccountManagement/EadminReview/EAdminReview.js) | JavaScript | 47 | 0 | 4 | 51 |
+| [src/view/EnterpriseManagement/Edit/EditCorporateInformation/EditCorporateInformation.css](/src/view/EnterpriseManagement/Edit/EditCorporateInformation/EditCorporateInformation.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Edit/EditCorporateInformation/EditCorporateInformation.js](/src/view/EnterpriseManagement/Edit/EditCorporateInformation/EditCorporateInformation.js) | JavaScript | 298 | 1 | 6 | 305 |
+| [src/view/EnterpriseManagement/Edit/EditPersonalInfo/EditPersonalInfo.css](/src/view/EnterpriseManagement/Edit/EditPersonalInfo/EditPersonalInfo.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Edit/EditPersonalInfo/EditPersonalInfo.js](/src/view/EnterpriseManagement/Edit/EditPersonalInfo/EditPersonalInfo.js) | JavaScript | 106 | 0 | 4 | 110 |
+| [src/view/EnterpriseManagement/Edit/EditPositon/EditPositon.css](/src/view/EnterpriseManagement/Edit/EditPositon/EditPositon.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/Edit/EditPositon/EditPositon.js](/src/view/EnterpriseManagement/Edit/EditPositon/EditPositon.js) | JavaScript | 389 | 0 | 4 | 393 |
+| [src/view/EnterpriseManagement/JobManagement/JobManagement.css](/src/view/EnterpriseManagement/JobManagement/JobManagement.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/JobManagement/JobManagement.js](/src/view/EnterpriseManagement/JobManagement/JobManagement.js) | JavaScript | 123 | 0 | 5 | 128 |
+| [src/view/EnterpriseManagement/PersonalInformation/PersonalInformation.css](/src/view/EnterpriseManagement/PersonalInformation/PersonalInformation.css) | CSS | 3 | 0 | 0 | 3 |
+| [src/view/EnterpriseManagement/PersonalInformation/PersonalInformation.js](/src/view/EnterpriseManagement/PersonalInformation/PersonalInformation.js) | JavaScript | 190 | 0 | 5 | 195 |
+| [src/view/EnterpriseManagement/SpecialRecruitment/SpecialRecruitment.css](/src/view/EnterpriseManagement/SpecialRecruitment/SpecialRecruitment.css) | CSS | 0 | 0 | 1 | 1 |
+| [src/view/EnterpriseManagement/SpecialRecruitment/SpecialRecruitment.js](/src/view/EnterpriseManagement/SpecialRecruitment/SpecialRecruitment.js) | JavaScript | 44 | 0 | 4 | 48 |
+| [src/view/NotMatch/NotMatch.css](/src/view/NotMatch/NotMatch.css) | CSS | 10 | 0 | 0 | 10 |
+| [src/view/NotMatch/NotMatch.js](/src/view/NotMatch/NotMatch.js) | JavaScript | 18 | 0 | 3 | 21 |
+| [src/view/admin/admin.css](/src/view/admin/admin.css) | CSS | 16 | 0 | 4 | 20 |
+| [src/view/admin/admin.js](/src/view/admin/admin.js) | JavaScript | 70 | 1 | 4 | 75 |
+| [src/view/forget/forget.css](/src/view/forget/forget.css) | CSS | 34 | 0 | 1 | 35 |
+| [src/view/forget/forget.js](/src/view/forget/forget.js) | JavaScript | 276 | 2 | 7 | 285 |
+| [src/view/login/login.css](/src/view/login/login.css) | CSS | 31 | 0 | 1 | 32 |
+| [src/view/login/login.js](/src/view/login/login.js) | JavaScript | 358 | 6 | 9 | 373 |
+| [src/view/signup/signup.css](/src/view/signup/signup.css) | CSS | 34 | 0 | 1 | 35 |
+| [src/view/signup/signup.js](/src/view/signup/signup.js) | JavaScript | 325 | 2 | 9 | 336 |
+
+[summary](results.md) / details / [diff summary](diff.md) / [diff details](diff-details.md)

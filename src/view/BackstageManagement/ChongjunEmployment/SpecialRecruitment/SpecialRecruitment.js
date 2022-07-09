@@ -1,124 +1,83 @@
 import React from "react";
 import "./SpecialRecruitment.css";
-import { Col, Row, Button, Space, Table } from "antd";
+import { Col, Row, Button, message, Pagination } from "antd";
 import { SwapOutlined, PlusOutlined } from "@ant-design/icons";
+import SpecialRecruitmentTable from "../../../../component/table/SpecialRecruitmentTable/SpecialRecruitmentTable";
+import { getBSpecial } from "../../../../apis/admin";
 
-function SpecialRecruitment() {
-  const dataSource = [
-    {
-      key: "1",
-      SpecialName: "江西省退役军人线上招聘活动",
-      BusinessRegistrationTime: "2021.10.01-2021.11.30",
-      ActivityTime: "2021.11.01-2021.12.30",
-      ActiveStatus: "企业报名中",
-      ParticipatingCompanies: "28",
-      NumberOfJobs: "56",
-      TheNumberOfParticipants: "389",
-    },
-    {
-      key: "2",
-      SpecialName: "江西省退役军人线上招聘活动",
-      BusinessRegistrationTime: "2021.10.01-2021.11.30",
-      ActivityTime: "2021.11.01-2021.12.30",
-      ActiveStatus: "企业报名中",
-      ParticipatingCompanies: "28",
-      NumberOfJobs: "56",
-      TheNumberOfParticipants: "389",
-    },
-    {
-      key: "3",
-      SpecialName: "江西省退役军人线上招聘活动",
-      BusinessRegistrationTime: "2021.10.01-2021.11.30",
-      ActivityTime: "2021.11.01-2021.12.30",
-      ActiveStatus: "企业报名中",
-      ParticipatingCompanies: "28",
-      NumberOfJobs: "56",
-      TheNumberOfParticipants: "389",
-    },
-    {
-      key: "4",
-      SpecialName: "江西省退役军人线上招聘活动",
-      BusinessRegistrationTime: "2021.10.01-2021.11.30",
-      ActivityTime: "2021.11.01-2021.12.30",
-      ActiveStatus: "企业报名中",
-      ParticipatingCompanies: "28",
-      NumberOfJobs: "56",
-      TheNumberOfParticipants: "389",
-    },
-  ];
+class SpecialRecruitment extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSource: [],
+    };
+  }
 
-  const columns = [
-    {
-      title: "专场名称",
-      dataIndex: "SpecialName",
-      key: "SpecialName",
-      width: 110,
-    },
-    {
-      title: "企业报名时间",
-      dataIndex: "BusinessRegistrationTime",
-      key: "BusinessRegistrationTime",
-      width: 70,
-    },
-    {
-      title: "活动时间",
-      dataIndex: "ActivityTime",
-      key: "ActivityTime",
-      width: 80,
-    },
-    {
-      title: "活动状态",
-      dataIndex: "ActiveStatus",
-      key: "ActiveStatus",
-      width: 70,
-    },
-    {
-      title: "参与企业",
-      dataIndex: "ParticipatingCompanies",
-      key: "ParticipatingCompanies",
-      width: 70,
-    },
-    {
-      title: "岗位数量",
-      dataIndex: "NumberOfJobs",
-      key: "NumberOfJobs",
-      width: 70,
-    },
-    {
-      title: "参与人数",
-      dataIndex: "TheNumberOfParticipants",
-      key: "TheNumberOfParticipants",
-      width: 70,
-    },
-    {
-      title: "操作",
-      key: "operate",
-      width: 70,
-      render: (text, record) => <a>查看详情</a>,
-    },
-  ];
-  return (
-    <div>
-      <Row justify="end">
-        <Col span={2}>
-          <Button>
-            <PlusOutlined />
-            新增专场招聘
-          </Button>
-        </Col>
-        <Col span={1}></Col>
-      </Row>
-      {/* topbar与table之间的间隔 */}
-      <Row>
-        <div style={{ marginBottom: 20 }}></div>
-      </Row>
-      <Row>
-        <Col span={24}>
-          <Table columns={columns} dataSource={dataSource} />
-        </Col>
-      </Row>
-    </div>
-  );
+  componentDidMount() {
+    this.getList();
+  }
+  getList=(param)=>{
+    getBSpecial(param).then(
+      (res) => {
+        console.log("get article response:", res);
+        if (res.code == 600) {
+          this.setState({
+            dataSource: res.data,
+          });
+        } else {
+          message.error(res.message);
+        }
+      },
+      (error) => {
+        console.log("get response failed!");
+      }
+    );
+  }
+  onChange = (pageNumber, pageSize) => {
+    console.log("Page: ", pageNumber);
+    console.log("Pagesize: ", pageSize);
+    this.getList({
+      page: pageNumber,
+      size: pageSize,
+    });
+  };
+  render() {
+    return (
+      <div>
+        <Row justify="end">
+          <Col span={2}>
+            <Button>
+              <PlusOutlined />
+              <a
+                style={{ color: "black" }}
+                href={
+                  "/#/admin/ChongjunEmployment/SpecialRecruitment/addSpecialRecruit"
+                }
+              >
+                新增专场招聘
+              </a>
+            </Button>
+          </Col>
+          <Col span={1}></Col>
+        </Row>
+        {/* topbar与table之间的间隔 */}
+        <Row>
+          <div style={{ marginBottom: 20 }}></div>
+        </Row>
+        <SpecialRecruitmentTable data={this.state.dataSource.records} />
+        <Pagination
+          style={{ position: "absolute", right: "40px" }}
+          showQuickJumper
+          showSizeChanger={true}
+          defaultPageSize={5}
+          pageSizeOptions={[5, 10, 20, 50, 100]}
+          current={this.state.dataSource.current}
+          total={this.state.dataSource.total}
+          onChange={this.onChange}
+        />
+      </div>
+    );
+  }
 }
 
 export default SpecialRecruitment;
